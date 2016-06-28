@@ -1,0 +1,8 @@
+.classpath
+.project
+.settings/
+*.xlsm
+bin/
+*.xlsx
+src/test
+
