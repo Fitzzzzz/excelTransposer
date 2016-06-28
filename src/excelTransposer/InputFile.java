@@ -32,27 +32,21 @@ public class InputFile extends InOutFile{
 		public void extractLine(int rowId) { // Probleme cases vides 
 			
 			XSSFRow row = getSheet().getRow(rowId);
-			Iterator < Cell > cellIterator = row.cellIterator();
-			header = new String[row.getLastCellNum()];
-			System.out.println("header de taille " + row.getLastCellNum()); // TODO : TBR
-			int i = 0;
+			int lastColumn = row.getLastCellNum();
+			header = new Cell[lastColumn];
+			System.out.println("header de taille " + lastColumn); // TODO : TBR
 			
-			while (cellIterator.hasNext()) {
+			
+			for (int i = 0; i < lastColumn; i++) {
 
 				System.out.println("On s'occupe de la case " + i);
 				
-				Cell cell = cellIterator.next();
+				Cell cell = row.getCell(i, row.CREATE_NULL_AS_BLANK);
 				
-				switch (cell.getCellType()) {
-				case Cell.CELL_TYPE_NUMERIC:
-					header[i] = String.valueOf(cell.getNumericCellValue());
-					break;
-				case Cell.CELL_TYPE_STRING:
-					header[i] = cell.getStringCellValue();
-					break;
-				}
+				header[i] = cell;
 				
-				i++;
+				
+				
 				
 			}
 		}
@@ -72,10 +66,10 @@ public class InputFile extends InOutFile{
 			return allDone;
 		}
 		
-		private String[] header; // Mieux tableau de Cells?
+		private Cell[] header; // Mieux tableau de Cells?
 
 
-		public String[] getHeader() {
+		public Cell[] getHeader() {
 			return header;
 		}
 		

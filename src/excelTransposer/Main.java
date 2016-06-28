@@ -8,6 +8,7 @@ import java.io.IOException;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import testTools.CellArray;
 import testTools.StringArray;
 
 public class Main {
@@ -39,9 +40,8 @@ public class Main {
 	    
 	    input.extractHeader();
 	    
-	    StringArray tab = new StringArray(input.getHeader()); // TODO : TBR
-	    
-	    tab.print();
+	    CellArray cA = new CellArray(input.getHeader());
+	    cA.print();
 	    
 	    FileOutputStream out = new FileOutputStream( 
   				new File(outputName));
