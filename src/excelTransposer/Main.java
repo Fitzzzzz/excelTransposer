@@ -35,13 +35,32 @@ public class Main {
 	    
 	    T.copy(0, 0, linesToCopy);
 	    
-	    input.setCurrentLine(linesToCopy);
-	    output.setCurrentLine(linesToCopy);
+	    input.setCurrentLine(linesToCopy); // Useless ?
+	    output.setCurrentLine(linesToCopy); // Useless ?
 	    
-	    input.extractHeader();
+	    input.setHeader(T.extractLine(linesToCopy));
 	    
-	    CellArray cA = new CellArray(input.getHeader());
-	    cA.print();
+	    CellArray cA = new CellArray(input.getHeader()); // TODO : TBR
+	    cA.print(); // TODO : TBR
+
+	    
+	    output.divideHeader(input.getHeader(), serieNb);
+	    input.incrLine(); // Useless?
+	    
+	    CellArray serieHeader = new CellArray(output.getSerieHeader());
+	    serieHeader.print();
+	    
+	    CellArray years = new CellArray(output.getYears());// TODO : TBR
+	    years.print(); // TODO : TBR
+	    
+	    
+	    
+	    
+	    T.writeLine(linesToCopy, output.getSerieHeader(), OutputFile.serieEnd);
+
+
+	    
+	    
 	    
 	    FileOutputStream out = new FileOutputStream( 
   				new File(outputName));
