@@ -3,6 +3,8 @@ package excelTransposer;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
+import testTools.CellArray;
+
 public class OutputFile extends InOutFile {
 	
 
@@ -25,30 +27,56 @@ public class OutputFile extends InOutFile {
 		this.years = years;
 	}
 
-
-
-	private Cell[] serieHeader;
-
-
-	public Cell[] getSerieHeader() {
-		return serieHeader;
+	private Cell[] rightHeader;
+ 
+	public Cell[] getRightHeader() {
+		return rightHeader;
 	}
 
-	public void setSerieHeader(Cell[] serieHeader) {
-		this.serieHeader = serieHeader;
+	public void setRightHeader(Cell[] rightHeader) {
+		this.rightHeader = rightHeader;
+	}
+
+	private Cell[] leftHeader;
+
+
+	public Cell[] getLeftHeader() {
+		return leftHeader;
+	}
+
+	public void setLeftHeader(Cell[] leftHeader) {
+		this.leftHeader = leftHeader;
+	}
+
+	private Cell[] values;
+	
+ 	public Cell[] getValues() {
+		return values;
+	}
+	public void setValues(Cell[] values) {
+		this.values = values;
 	}
 	
-	
-	public void divideHeader(Cell[] header, int serieNb) {
-		this.serieHeader = new Cell[serieNb];
-		this.years = new Cell[header.length - serieNb];
-		Tools.divide(header, serieHeader, years);
+	public void divideHeader(Cell[] header, int serieNb, int firstRightHeader) {
+		this.leftHeader = new Cell[serieNb];
+		Cell[] left = new Cell[header.length - serieNb];
+		Tools.divide(header, leftHeader, left);
+		years = new Cell[firstRightHeader - serieNb];
+		rightHeader = new Cell[left.length - years.length];
+		Tools.divide(left, years, rightHeader);
+		CellArray right = new CellArray(rightHeader);
+		System.out.print("rightHeader INC : ");
+		right.print();
 	}
 	
 	
 		
 	public static final String[] serieEnd = {"period", "value"};
 	
-	
+	public void setArrays(int leftSerieNb, int rightSerieNb, int valuesNb) {
+		this.leftHeader = new Cell[leftSerieNb];
+		this.rightHeader = new Cell[rightSerieNb];
+		this.values = new Cell[valuesNb];
+	}
 }
 
