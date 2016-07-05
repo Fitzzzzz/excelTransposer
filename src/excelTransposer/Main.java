@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -16,7 +17,7 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 
-		String inputName = "exemplePerso2.xlsx";
+		String inputName = "exempleVraiExcNew.xlsx";
 		String[] parts = inputName.split("\\.");
 		String outputName = parts[0] + "OUT.xlsx";
 		final int linesToCopy = 2;
@@ -65,30 +66,47 @@ public class Main {
 
 	    System.out.println(serieNb + " " + (T.getLastColumn() - input.getLastPeriod()) + " " + (input.getLastPeriod() - serieNb));
 	    
-	    output.setLeftHeader(T.extractLine(3, 0, serieNb - 1));
-//	    System.out.println("leftHeader fait, values inc");
-	    
-	    output.setValues(T.extractLine(3, serieNb, input.getLastPeriod()));
-	    System.out.println(input.getColumnLimit());
-	    output.setRightHeader(T.extractLine(3, input.getLastPeriod() + 1, input.getColumnLimit()));
+	    /* 
+	     * Début du traitement ligne par ligne
+	     * 
+	     */
+	    boolean done = false;
+	    int j = serieNb;
+	    while (!done) {
+		    output.setLeftHeader(T.extractLine(j, 0, serieNb - 1));
+		    
+		    output.setValues(T.extractLine(j, serieNb, input.getLastPeriod()));
+		    System.out.println(input.getColumnLimit());
+		    output.setRightHeader(T.extractLine(j, input.getLastPeriod() + 1, input.getColumnLimit()));
 
-	    CellArray yearsValue1 = new CellArray(output.getValues());
-	    yearsValue1.print();
-	    
-	    Cell[] line = new Cell[serieNb + 2 + output.getRightHeader().length];
-	    System.out.println("line de longueur " + line.length);
-	    
-	    Tools.fill(line, output.getLeftHeader(), 0);
-	    Tools.fill(line, output.getRightHeader(), serieNb + 2);
-	    
-	    for (int i = 0; i < output.getValues().length; i++) {
-	    	
-	    	line[serieNb] = output.getYears()[i];
-	    	line[serieNb + 1] = output.getValues()[i];
-	    	int j = line[i].getCellType();
-	    	T.writeLine(serieNb + i, line);
+		    CellArray yearsValue1 = new CellArray(output.getValues());
+		    yearsValue1.print();
+		    
+		    Cell[] line = new Cell[serieNb + 2 + output.getRightHeader().length];
+		    System.out.println("line de longueur " + line.length);
+		    
+		    Tools.fill(line, output.getLeftHeader(), 0);
+		    Tools.fill(line, output.getRightHeader(), serieNb + 2);
+		    
+		    for (int i = 0; i < output.getValues().length; i++) {
+		    	
+		    	line[serieNb] = output.getYears()[i];
+		    	line[serieNb + 1] = output.getValues()[i];
+		    	T.writeLine(serieNb + i + (j - serieNb)*output.getValues().length, line);
 
+		    }
+		    j++;
+		    System.out.println("j = " + j);
+		    done = T.isItEOF(j);
 	    }
+	    
+	    	
+	    	
+	    	
+
+	    
+	    
+	  
 	    
 	    FileOutputStream out = new FileOutputStream( 
   				new File(outputName));

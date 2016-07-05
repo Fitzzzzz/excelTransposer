@@ -165,6 +165,16 @@ public class Tools {
 	}
 	 
 
+	public boolean isItEOF(int j) {
+		XSSFRow row = input.getRow(j);
+		if (row == null) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
 	// TODO : Check b + c = a ?
 	public static void divide(Cell[] a, Cell[] b, Cell[] c) {
 		
@@ -212,6 +222,8 @@ public class Tools {
 			}
 		}
 	}
+	
+	
 	
 	
 	
