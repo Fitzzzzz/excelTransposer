@@ -3,8 +3,6 @@ package excelTransposer;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
-import testTools.CellArray;
-
 public class OutputFile extends InOutFile {
 	
 
@@ -64,9 +62,6 @@ public class OutputFile extends InOutFile {
 		years = new Cell[firstRightHeader - serieNb];
 		rightHeader = new Cell[left.length - years.length];
 		Tools.divide(left, years, rightHeader);
-		CellArray right = new CellArray(rightHeader);
-		System.out.print("rightHeader INC : ");
-		right.print();
 	}
 	
 	

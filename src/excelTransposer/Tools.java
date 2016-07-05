@@ -1,6 +1,7 @@
 package excelTransposer;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
@@ -39,7 +40,7 @@ public class Tools {
 
 				for (int j = 0; j < eol; j++) {
 					
-					Cell iCell = iRow.getCell(j, iRow.CREATE_NULL_AS_BLANK);
+					Cell iCell = iRow.getCell(j, Row.CREATE_NULL_AS_BLANK);
 					Cell oCell = oRow.createCell(j);
 					
 					switch (iCell.getCellType()) {
@@ -62,14 +63,14 @@ public class Tools {
 		
 		XSSFRow row = input.getRow(rowId);
 		Cell[] line = new Cell[lastColumn + 1];
-		System.out.println("header de taille " + lastColumn); // TODO : TBR
+//		System.out.println("header de taille " + lastColumn); // TODO : TBR
 		
 		
 		for (int i = 0; i <= lastColumn; i++) {
 
-			System.out.println("On s'occupe de la case " + i);
+//			System.out.println("On s'occupe de la case " + i);
 			
-			line[i] = row.getCell(i, row.CREATE_NULL_AS_BLANK);
+			line[i] = row.getCell(i, Row.CREATE_NULL_AS_BLANK);
 		}
 		return line;
 	}
@@ -82,10 +83,10 @@ public class Tools {
 		
 		for (int i = start; i <= end; i++) {
 			
-			System.out.println("On s'occupe de la case " + i);
-			Cell c = row.getCell(i, row.CREATE_NULL_AS_BLANK);
-			line[i - start] = row.getCell(i, row.CREATE_NULL_AS_BLANK);
-			printCell(c);
+//			System.out.println("On s'occupe de la case " + i);
+//			Cell c = row.getCell(i, Row.CREATE_NULL_AS_BLANK);
+			line[i - start] = row.getCell(i, Row.CREATE_NULL_AS_BLANK);
+//			printCell(c);
 		}
 		return line;
 	}
@@ -149,7 +150,7 @@ public class Tools {
 		
 		XSSFRow row = output.createRow(rowId);
 		for (int i = 0; i < line.length; i++) {
-			System.out.println("writeLine de la case " + i);
+//			System.out.println("writeLine de la case " + i);
 			Cell cell = row.createCell(i);
 			switch (line[i].getCellType()) {
 			case Cell.CELL_TYPE_NUMERIC:
@@ -175,6 +176,39 @@ public class Tools {
 		}
 	}
 	
+	public boolean isColumnEmpty(int column, int firstRow) {
+		
+
+		XSSFRow row = input.getRow(firstRow);
+		
+		while (row != null) {
+			Cell c = row.getCell(column, Row.RETURN_BLANK_AS_NULL);
+			if (c != null) {
+				return false;
+			}
+			row = input.getRow(firstRow++);
+		}
+		return true;
+		
+	}
+	
+
+	public static boolean isColumnEmpty(int column, int firstRow, XSSFSheet sheet) {
+		
+
+		XSSFRow row = sheet.getRow(firstRow);
+		
+		while (row != null) {
+			Cell c = row.getCell(column, Row.RETURN_BLANK_AS_NULL);
+			if (c != null) {
+				return false;
+			}
+			row = sheet.getRow(firstRow++);
+		}
+		return true;
+		
+	}
+	 
 	// TODO : Check b + c = a ?
 	public static void divide(Cell[] a, Cell[] b, Cell[] c) {
 		
@@ -200,7 +234,7 @@ public class Tools {
 	
 	public static void fill(Cell[] a, Cell[] b, int start) {
 		
-		System.out.println("a de taille " + a.length + " et b de taille " + b.length + " début à " + start);
+//		System.out.println("a de taille " + a.length + " et b de taille " + b.length + " début à " + start);
 		for (int i = 0; i < b.length; i++) {
 			a[start + i] = b[i];
 			
@@ -214,10 +248,10 @@ public class Tools {
 		else {
 			switch (c.getCellType()) {
 			case Cell.CELL_TYPE_NUMERIC:
-				System.out.println(c.getNumericCellValue());
+				System.out.print(c.getNumericCellValue());
 				break;
 			case Cell.CELL_TYPE_STRING:
-				System.out.println(c.getStringCellValue());
+				System.out.print(c.getStringCellValue());
 				break;
 			}
 		}

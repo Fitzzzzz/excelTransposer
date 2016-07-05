@@ -2,6 +2,8 @@ package testTools;
 
 import org.apache.poi.ss.usermodel.Cell;
 
+import excelTransposer.Tools;
+
 public class CellArray {
 
 	private Cell[] tab;
@@ -44,6 +46,10 @@ public class CellArray {
 	}
 	
 	public void print() {
-		System.out.println(toString());
+		for (Cell c : tab) {
+			Tools.printCell(c);
+			System.out.println(" # ");
+		}
+		System.out.println("");
 	}
 }

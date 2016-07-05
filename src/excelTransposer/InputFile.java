@@ -1,6 +1,7 @@
 package excelTransposer;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
@@ -63,29 +64,45 @@ public class InputFile extends InOutFile{
 
 		public void findFirstBlankColumn(int rowId, int serieNb) {
 
-			System.out.println("findFirstBlank ligne " + rowId);
+//			System.out.println("findFirstBlank ligne (on compte comme le tableau en vrai) " + rowId);
 			XSSFRow row = getSheet().getRow(rowId);
 			int eof = row.getLastCellNum();
+//			System.out.println("eof at " + eof);
+			
+			XSSFRow rowUnder = getSheet().getRow(rowId + 1);
+			
+			
 			boolean stringFound = false;
 			for (int i = serieNb; i < eof; i++) {
 
-				System.out.println("On cherche si c'est null en case " + i);
+//				System.out.println("On cherche si c'est null en case " + i);
 				
-				Cell cell = row.getCell(i, row.RETURN_BLANK_AS_NULL);
+				Cell cell = row.getCell(i, Row.RETURN_BLANK_AS_NULL);
 				
-//				Tools.printCell(cell);
+				Tools.printCell(cell);
 //				System.out.println("");
+				
+				Cell cellUnder = rowUnder.getCell(i, Row.RETURN_BLANK_AS_NULL);
+				
 				if (cell == null) {
+					System.out.println("trouvé cellule nulle ");
+				
 					lastColumn = i - 1;
 					System.out.println("Premiere colonne vide à " + i);
 					return;
+
+					
 				}
-				else if ( !(stringFound) && (cell.getCellType() == cell.CELL_TYPE_STRING)) {
-					lastPeriod = i - 1;
-					System.out.println("Lastperiod = " + lastPeriod);
-					stringFound = true;
+				if (cellUnder != null) {
+					if ( !(stringFound) && (cellUnder.getCellType() == Cell.CELL_TYPE_STRING)) {
+						lastPeriod = i - 1;
+//						System.out.println("Lastperiod = " + lastPeriod);
+						stringFound = true;
+					}
 				}
+				
 			}
+			System.out.println("didnt found it lolk");
 			lastColumn = eof - 1;
 			
 		}
