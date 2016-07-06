@@ -4,8 +4,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Map;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Comment;
+import org.apache.poi.ss.util.CellAddress;
+import org.apache.poi.xssf.usermodel.XSSFComment;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -62,12 +66,12 @@ public class Main {
 	    
 	    
 	    System.out.println("leftheader = " + output.getLeftHeader().length);
-	    System.out.println("serieEnd = " + OutputFile.serieEnd.length);
+	    System.out.println("serieEnd = " + OutputFile.periodValue.length);
 	    System.out.println("rightheader = " + output.getRightHeader().length);
 	    
 	    // Writing the header
 	    
-	    T.writeLine(linesToCopy, output.getLeftHeader(), OutputFile.serieEnd, output.getRightHeader());
+	    T.writeLine(linesToCopy, output.getLeftHeader(), OutputFile.periodValue, output.getRightHeader(), OutputFile.commentColumns);
 
 	    CellArray rightHeader = new CellArray(output.getRightHeader()); 
 	    rightHeader.print();
@@ -110,6 +114,15 @@ public class Main {
 		    done = T.isItEOF(j);
 	    }
 	    
+	    Map<CellAddress, XSSFComment> comments = iSheet.getCellComments();
+	    for (java.util.Map.Entry<CellAddress, XSSFComment> e : comments.entrySet()) {
+	      CellAddress loc = e.getKey();
+	      Comment comment = e.getValue();
+	      System.out.println("Comment at " + loc + ": " +
+	          "[" + comment.getAuthor() + "] " + comment.getString().getString());
+	    }
+	  
+	    
 	    XSSFSheet iSuppSheet;
 	    	
 	    if ((iSuppSheet = iWorkbook.getSheet("suppression")) != null) {
@@ -138,12 +151,12 @@ public class Main {
 		    
 		    
 		    System.out.println("leftheader = " + outputSupp.getLeftHeader().length);
-		    System.out.println("serieEnd = " + OutputFile.serieEnd.length);
+		    System.out.println("serieEnd = " + OutputFile.periodValue.length);
 		    System.out.println("rightheader = " + outputSupp.getRightHeader().length);
 		    
 		    // Writing the header
 		    
-		    tSupp.writeLine(linesToCopy, outputSupp.getLeftHeader(), OutputFile.serieEnd, outputSupp.getRightHeader());
+		    tSupp.writeLine(linesToCopy, outputSupp.getLeftHeader(), OutputFile.periodValue, outputSupp.getRightHeader(), OutputFile.commentColumns);
 
 		    CellArray rightHeaderSupp = new CellArray(outputSupp.getRightHeader()); 
 		    rightHeaderSupp.print();

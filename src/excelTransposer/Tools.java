@@ -146,6 +146,43 @@ public class Tools {
 		
 	}
 	
+public void writeLine(int rowId, Cell[] beginning, String[] second, Cell[] third, String[] end) {
+		
+		XSSFRow row = output.createRow(rowId);
+		for (int i = 0; i < beginning.length; i++) {
+			Cell cell = row.createCell(i);
+			switch (beginning[i].getCellType()) {
+			case Cell.CELL_TYPE_NUMERIC:
+				cell.setCellValue(beginning[i].getNumericCellValue());
+				break;
+			case Cell.CELL_TYPE_STRING:
+				cell.setCellValue(beginning[i].getStringCellValue());
+				break;
+			}
+			
+		}
+		for (int i = 0; i < second.length; i++) {
+			Cell cell = row.createCell(beginning.length + i);
+			cell.setCellValue(second[i]);
+		}
+		for (int i = 0; i < third.length; i++) {
+			Cell cell = row.createCell(beginning.length + second.length+ i);
+			switch (third[i].getCellType()) {
+			case Cell.CELL_TYPE_NUMERIC:
+				cell.setCellValue(third[i].getNumericCellValue());
+				break;
+			case Cell.CELL_TYPE_STRING:
+				cell.setCellValue(third[i].getStringCellValue());
+				break;
+			}
+		}
+		for (int i = 0; i < end.length; i++) {
+			Cell cell = row.createCell(beginning.length + second.length + third.length + i);
+			cell.setCellValue(end[i]);
+		}
+		
+	}
+	
 	public void writeLine(int rowId, Cell[] line) {
 		
 		XSSFRow row = output.createRow(rowId);

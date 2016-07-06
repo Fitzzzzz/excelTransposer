@@ -66,7 +66,9 @@ public class OutputFile extends InOutFile {
 	
 	
 		
-	public static final String[] serieEnd = {"period", "value"};
+	public static final String[] periodValue = {"period", "value"};
+	
+	public static final String[] commentColumns = {"source", "comment", "statut"};
 	
 	public void setArrays(int leftSerieNb, int rightSerieNb, int valuesNb) {
 		this.leftHeader = new Cell[leftSerieNb];
