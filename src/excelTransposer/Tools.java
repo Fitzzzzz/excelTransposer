@@ -146,7 +146,7 @@ public class Tools {
 		
 	}
 	
-public void writeLine(int rowId, Cell[] beginning, String[] second, Cell[] third, String[] end) {
+	public void writeLine(int rowId, Cell[] beginning, String[] second, Cell[] third, String[] end) {
 		
 		XSSFRow row = output.createRow(rowId);
 		for (int i = 0; i < beginning.length; i++) {
@@ -202,7 +202,17 @@ public void writeLine(int rowId, Cell[] beginning, String[] second, Cell[] third
 		
 	}
 	 
-
+	// Needs row to be created (Should always been)
+	// Needs cell to be created? Is it?
+	public void writeCell(int rowId, int columnId, String msg) {
+		
+		XSSFRow row = output.getRow(rowId);
+		Cell cell = row.createCell(columnId);
+		System.out.println("dans writeCell de " + rowId + ":" + columnId + " : " + msg);
+		cell.setCellValue(msg);
+		
+	}
+	
 	public boolean isItEOF(int j) {
 		XSSFRow row = input.getRow(j);
 		if (row == null) {

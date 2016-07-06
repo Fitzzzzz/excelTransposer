@@ -13,6 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFComment;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import commentsHandler.CommentReader;
 import testTools.CellArray;
 
 
@@ -72,6 +73,8 @@ public class Main {
 	    // Writing the header
 	    
 	    T.writeLine(linesToCopy, output.getLeftHeader(), OutputFile.periodValue, output.getRightHeader(), OutputFile.commentColumns);
+	    int commentIndex = output.getLeftHeader().length + OutputFile.periodValue.length + output.getRightHeader().length;
+	    
 
 	    CellArray rightHeader = new CellArray(output.getRightHeader()); 
 	    rightHeader.print();
@@ -81,6 +84,8 @@ public class Main {
 	     * Début du traitement ligne par ligne
 	     * 
 	     */
+	    int valuesNumber;
+	    
 	    boolean done = false;
 	    int j = serieNb;
 	    while (!done) {
@@ -112,14 +117,37 @@ public class Main {
 		    j++;
 //		    System.out.println("j = " + j);
 		    done = T.isItEOF(j);
+		    
 	    }
 	    
+	    valuesNumber = output.getValues().length;
+	    
+	    
 	    Map<CellAddress, XSSFComment> comments = iSheet.getCellComments();
+	    
 	    for (java.util.Map.Entry<CellAddress, XSSFComment> e : comments.entrySet()) {
 	      CellAddress loc = e.getKey();
 	      Comment comment = e.getValue();
-	      System.out.println("Comment at " + loc + ": " +
-	          "[" + comment.getAuthor() + "] " + comment.getString().getString());
+	      
+//	      System.out.println("Bulle trouvée à " + loc.getRow() + ":" + loc.getColumn());
+	      
+	      CommentReader commentR = new CommentReader(comment.getString().getString());
+//	      System.out.println(comment.getString().getString());
+	      int outputRowId = (loc.getRow() - linesToCopy)*valuesNumber + linesToCopy + loc.getColumn() - serieNb;
+	     
+	      if (commentR.getSourcePosition() != -1) {
+	    	  System.out.println("Source trouvé à " + loc.getRow() + ":" + loc.getColumn());
+		      T.writeCell(outputRowId, commentIndex, commentR.getSource());
+	      }
+	      if (commentR.getCommentPosition() != -1) {
+	    	  System.out.println("Comment trouvé à " + loc.getRow() + ":" + loc.getColumn());
+		      T.writeCell(outputRowId, commentIndex + 1, commentR.getComment());
+	      }
+	      if (commentR.getStatutPosition() != -1) {
+	    	  System.out.println("Statut trouvé à " + loc.getRow() + ":" + loc.getColumn());
+		      T.writeCell(outputRowId, commentIndex + 2, commentR.getStatut());
+	      }
+	      
 	    }
 	  
 	    
