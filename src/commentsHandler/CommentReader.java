@@ -37,21 +37,54 @@ public class CommentReader {
 	}
 
 	public CommentReader(String comment) {
-		this.comment = comment;
-		splitComment();
+		
+		String[] tmp = {comment};
+		String[] tmp2 = split(tmp, "SOURCE:");
+		String[] tmp3 = split(tmp2, "COMMENT:");
+		words = split(tmp3, "STATUT:");
+		
 		sourcePosition = getStringPosition("SOURCE:", words);
 		commentPosition = getStringPosition("COMMENT:", words);
 		statutPosition = getStringPosition("STATUT:", words);
 	}
 	
-	public void splitComment() {
+
+	
+	public String[] split(String[] text, String keyWord) {
 		
-		words = comment.split("\\s+"); // This regex means "one or more spaces"
+		int tmp;
+		String[] matchedArray;
+
+		for (int i = 0; i < text.length; i++) {
+			
+			if (text[i].contains(keyWord)) {
+				tmp = i;
+				matchedArray = text[i].split(keyWord);
+
+				String[] newText = new String[text.length + 2];
+				
+				for (int j = 0; j < tmp; j++) {
+					newText[j] = text[j];
+				}
+				newText[tmp] = matchedArray[0];
+				newText[tmp + 1] = keyWord;
+				newText[tmp + 2] = matchedArray[1];
+				
+				for (int j = tmp + 1; j < text.length; j++) {
+					newText[j + 2] = text[j];
+				}
+					
+				return newText;
+					
+			}	
+		}
+		
+		return text;
 		
 	}
 	
 	
-	private final String comment;
+
 	
 	private String[] words;
 	
