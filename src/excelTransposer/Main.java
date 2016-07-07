@@ -61,14 +61,14 @@ public class Main {
 	    T.setLastColumn(input.getColumnLimit());
 	    input.setHeader(T.extractLine(linesToCopy));
 	    
-	    System.out.println("serieNb = " + serieNb + " firstRightHeader = " + (input.getLastPeriod() + 1));
+//	    System.out.println("serieNb = " + serieNb + " firstRightHeader = " + (input.getLastPeriod() + 1));
 	    output.divideHeader(input.getHeader(), serieNb, input.getLastPeriod() + 1);
 	    input.incrLine(); // Useless?
 	    
-	    
-	    System.out.println("leftheader = " + output.getLeftHeader().length);
-	    System.out.println("serieEnd = " + OutputFile.periodValue.length);
-	    System.out.println("rightheader = " + output.getRightHeader().length);
+//	    
+//	    System.out.println("leftheader = " + output.getLeftHeader().length);
+//	    System.out.println("serieEnd = " + OutputFile.periodValue.length);
+//	    System.out.println("rightheader = " + output.getRightHeader().length);
 	    
 	    // Writing the header
 	    
@@ -76,8 +76,8 @@ public class Main {
 	    int commentIndex = output.getLeftHeader().length + OutputFile.periodValue.length + output.getRightHeader().length;
 	    
 
-	    CellArray rightHeader = new CellArray(output.getRightHeader()); 
-	    rightHeader.print();
+//	    CellArray rightHeader = new CellArray(output.getRightHeader()); 
+//	    rightHeader.print();
 //	    System.out.println(serieNb + " " + (T.getLastColumn() - input.getLastPeriod()) + " " + (input.getLastPeriod() - serieNb));
 	    
 	    /* 
@@ -136,15 +136,15 @@ public class Main {
 	      int outputRowId = (loc.getRow() - linesToCopy)*valuesNumber + linesToCopy + loc.getColumn() - serieNb;
 	     
 	      if (commentR.getSourcePosition() != -1) {
-	    	  System.out.println("Source trouvé à " + loc.getRow() + ":" + loc.getColumn());
+//	    	  System.out.println("Source trouvé à " + loc.getRow() + ":" + loc.getColumn());
 		      T.writeCell(outputRowId, commentIndex, commentR.getSource());
 	      }
 	      if (commentR.getCommentPosition() != -1) {
-	    	  System.out.println("Comment trouvé à " + loc.getRow() + ":" + loc.getColumn());
+//	    	  System.out.println("Comment trouvé à " + loc.getRow() + ":" + loc.getColumn());
 		      T.writeCell(outputRowId, commentIndex + 1, commentR.getComment());
 	      }
 	      if (commentR.getStatutPosition() != -1) {
-	    	  System.out.println("Statut trouvé à " + loc.getRow() + ":" + loc.getColumn());
+//	    	  System.out.println("Statut trouvé à " + loc.getRow() + ":" + loc.getColumn());
 		      T.writeCell(outputRowId, commentIndex + 2, commentR.getStatut());
 	      }
 	      
@@ -154,7 +154,7 @@ public class Main {
 	    XSSFSheet iSuppSheet;
 	    	
 	    if ((iSuppSheet = iWorkbook.getSheet("suppression")) != null) {
-	    	System.out.println("suppression trouvé");
+//	    	System.out.println("suppression trouvé");
 	    	
 	    	InputFile inputSupp = new InputFile("suppression", iSuppSheet, linesToCopy);
 		    
@@ -173,21 +173,21 @@ public class Main {
 		    tSupp.setLastColumn(inputSupp.getColumnLimit());
 		    inputSupp.setHeader(tSupp.extractLine(linesToCopy));
 		    
-		    System.out.println("serieNb = " + serieNb + " firstRightHeader = " + (inputSupp.getLastPeriod() + 1));
+//		    System.out.println("serieNb = " + serieNb + " firstRightHeader = " + (inputSupp.getLastPeriod() + 1));
 		    outputSupp.divideHeader(inputSupp.getHeader(), serieNb, inputSupp.getLastPeriod() + 1);
 		    inputSupp.incrLine(); // Useless?
 		    
 		    
-		    System.out.println("leftheader = " + outputSupp.getLeftHeader().length);
-		    System.out.println("serieEnd = " + OutputFile.periodValue.length);
-		    System.out.println("rightheader = " + outputSupp.getRightHeader().length);
-		    
+//		    System.out.println("leftheader = " + outputSupp.getLeftHeader().length);
+//		    System.out.println("serieEnd = " + OutputFile.periodValue.length);
+//		    System.out.println("rightheader = " + outputSupp.getRightHeader().length);
+//		    
 		    // Writing the header
 		    
 		    tSupp.writeLine(linesToCopy, outputSupp.getLeftHeader(), OutputFile.periodValue, outputSupp.getRightHeader(), OutputFile.commentColumns);
 
-		    CellArray rightHeaderSupp = new CellArray(outputSupp.getRightHeader()); 
-		    rightHeaderSupp.print();
+//		    CellArray rightHeaderSupp = new CellArray(outputSupp.getRightHeader()); 
+//		    rightHeaderSupp.print();
 //		    System.out.println(serieNb + " " + (T.getLastColumn() - input.getLastPeriod()) + " " + (input.getLastPeriod() - serieNb));
 		    
 		    /* 
@@ -212,7 +212,7 @@ public class Main {
 			    Tools.fill(line, outputSupp.getLeftHeader(), 0);
 			    Tools.fill(line, outputSupp.getRightHeader(), serieNb + 2);
 			    
-			    System.out.println("Values length = " + outputSupp.getValues().length);
+//			    System.out.println("Values length = " + outputSupp.getValues().length);
 			    for (int i = 0; i < outputSupp.getValues().length; i++) {
 			    	
 			    	line[serieNb] = outputSupp.getYears()[i];
@@ -241,15 +241,15 @@ public class Main {
 		      int outputRowId = (loc.getRow() - linesToCopy)*valuesNumber + linesToCopy + loc.getColumn() - serieNb;
 		     
 		      if (commentR.getSourcePosition() != -1) {
-		    	  System.out.println("Source trouvé à " + loc.getRow() + ":" + loc.getColumn());
+//		    	  System.out.println("Source trouvé à " + loc.getRow() + ":" + loc.getColumn());
 			      tSupp.writeCell(outputRowId, commentIndex, commentR.getSource());
 		      }
 		      if (commentR.getCommentPosition() != -1) {
-		    	  System.out.println("Comment trouvé à " + loc.getRow() + ":" + loc.getColumn());
+//		    	  System.out.println("Comment trouvé à " + loc.getRow() + ":" + loc.getColumn());
 		    	  tSupp.writeCell(outputRowId, commentIndex + 1, commentR.getComment());
 		      }
 		      if (commentR.getStatutPosition() != -1) {
-		    	  System.out.println("Statut trouvé à " + loc.getRow() + ":" + loc.getColumn());
+//		    	  System.out.println("Statut trouvé à " + loc.getRow() + ":" + loc.getColumn());
 		    	  tSupp.writeCell(outputRowId, commentIndex + 2, commentR.getStatut());
 		      }
 		      

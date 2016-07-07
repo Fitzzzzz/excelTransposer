@@ -79,16 +79,17 @@ public class InputFile extends InOutFile{
 				
 				Cell cell = row.getCell(i, Row.RETURN_BLANK_AS_NULL);
 				
-				Tools.printCell(cell);
+//				Tools.printCell(cell);
 //				System.out.println("");
 				
 				Cell cellUnder = rowUnder.getCell(i, Row.RETURN_BLANK_AS_NULL);
 				
 				if (cell == null) {
-					System.out.println("trouvé cellule nulle ");
+//					System.out.println("trouvé cellule nulle ");
 				
 					lastColumn = i - 1;
-					System.out.println("Premiere colonne vide à " + i);
+					
+//					System.out.println("Premiere colonne vide à " + i);
 					return;
 
 					
@@ -102,7 +103,7 @@ public class InputFile extends InOutFile{
 				}
 				
 			}
-			System.out.println("didnt found it lolk");
+//			System.out.println("didnt found it lolk");
 			lastColumn = eof - 1;
 			
 		}

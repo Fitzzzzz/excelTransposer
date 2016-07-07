@@ -48,7 +48,7 @@ public class Tools {
 					case Cell.CELL_TYPE_NUMERIC:
 					 	if (DateUtil.isCellDateFormatted(iCell)) {
 					 		oCell.setCellValue(iCell.getDateCellValue());
-							System.out.println(" FOUND A DATE " + iCell.getRowIndex() + ":" + iCell.getColumnIndex()); // TODO : TBR
+//							System.out.println(" FOUND A DATE " + iCell.getRowIndex() + ":" + iCell.getColumnIndex()); // TODO : TBR
 					 	}
 					 	else {
 					 		oCell.setCellValue(iCell.getNumericCellValue());
@@ -107,7 +107,7 @@ public class Tools {
 			case Cell.CELL_TYPE_NUMERIC:
 				if (DateUtil.isCellDateFormatted(beginning[i])) {
 					cell.setCellValue(beginning[i].getDateCellValue());
-					System.out.println(" FOUND A DATE " + beginning[i].getRowIndex() + ":" + beginning[i].getColumnIndex()); // TODO : TBR
+//					System.out.println(" FOUND A DATE " + beginning[i].getRowIndex() + ":" + beginning[i].getColumnIndex()); // TODO : TBR
 				}
 				else {
 					cell.setCellValue(beginning[i].getNumericCellValue());
@@ -135,7 +135,7 @@ public class Tools {
 			case Cell.CELL_TYPE_NUMERIC:
 				if (DateUtil.isCellDateFormatted(beginning[i])) {
 					cell.setCellValue(beginning[i].getDateCellValue());
-					System.out.println(" FOUND A DATE " + beginning[i].getRowIndex() + ":" + beginning[i].getColumnIndex()); // TODO : TBR
+//					System.out.println(" FOUND A DATE " + beginning[i].getRowIndex() + ":" + beginning[i].getColumnIndex()); // TODO : TBR
 				}
 				else {
 					cell.setCellValue(beginning[i].getNumericCellValue());
@@ -157,7 +157,7 @@ public class Tools {
 			case Cell.CELL_TYPE_NUMERIC:
 				if (DateUtil.isCellDateFormatted(end[i])) {
 					cell.setCellValue(end[i].getDateCellValue());
-					System.out.println(" FOUND A DATE " + end[i].getRowIndex() + ":" + end[i].getColumnIndex()); // TODO : TBR
+//					System.out.println(" FOUND A DATE " + end[i].getRowIndex() + ":" + end[i].getColumnIndex()); // TODO : TBR
 				}
 				else {
 					cell.setCellValue(end[i].getNumericCellValue());
@@ -180,7 +180,7 @@ public class Tools {
 			case Cell.CELL_TYPE_NUMERIC:
 				if (DateUtil.isCellDateFormatted(beginning[i])) {
 					cell.setCellValue(beginning[i].getDateCellValue());
-					System.out.println(" FOUND A DATE " + beginning[i].getRowIndex() + ":" + beginning[i].getColumnIndex()); // TODO : TBR
+//					System.out.println(" FOUND A DATE " + beginning[i].getRowIndex() + ":" + beginning[i].getColumnIndex()); // TODO : TBR
 				}
 				else {
 					cell.setCellValue(beginning[i].getNumericCellValue());
@@ -201,7 +201,7 @@ public class Tools {
 			switch (third[i].getCellType()) {
 			case Cell.CELL_TYPE_NUMERIC:
 				if (DateUtil.isCellDateFormatted(third[i])) {
-					System.out.println(" FOUND A DATE " + third[i].getRowIndex() + ":" + third[i].getColumnIndex()); // TODO : TBR
+//					System.out.println(" FOUND A DATE " + third[i].getRowIndex() + ":" + third[i].getColumnIndex()); // TODO : TBR
 					cell.setCellValue(third[i].getDateCellValue());
 				}
 				else {
@@ -229,7 +229,7 @@ public class Tools {
 			switch (line[i].getCellType()) {
 			case Cell.CELL_TYPE_NUMERIC:
 				if (DateUtil.isCellDateFormatted(line[i])) {
-					System.out.println(" FOUND A DATE " + line[i].getRowIndex() + ":" + line[i].getColumnIndex()); // TODO : TBR
+//					System.out.println(" FOUND A DATE " + line[i].getRowIndex() + ":" + line[i].getColumnIndex()); // TODO : TBR
 					
 					cell.setCellValue(line[i].getDateCellValue());
 				}
@@ -252,7 +252,7 @@ public class Tools {
 		
 		XSSFRow row = output.getRow(rowId);
 		Cell cell = row.createCell(columnId);
-		System.out.println("dans writeCell de " + rowId + ":" + columnId + " : " + msg);
+//		System.out.println("dans writeCell de " + rowId + ":" + columnId + " : " + msg);
 		cell.setCellValue(msg);
 		
 	}
