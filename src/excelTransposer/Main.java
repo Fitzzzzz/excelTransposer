@@ -227,6 +227,33 @@ public class Main {
 //			    System.out.println("j = " + j);
 			    done = tSupp.isItEOF(j);
 		    }
+		    
+		    comments = iSuppSheet.getCellComments();
+		    
+		    for (java.util.Map.Entry<CellAddress, XSSFComment> e : comments.entrySet()) {
+		      CellAddress loc = e.getKey();
+		      Comment comment = e.getValue();
+		      
+//		      System.out.println("Bulle trouvée à " + loc.getRow() + ":" + loc.getColumn());
+		      
+		      CommentReader commentR = new CommentReader(comment.getString().getString());
+//		      System.out.println(comment.getString().getString());
+		      int outputRowId = (loc.getRow() - linesToCopy)*valuesNumber + linesToCopy + loc.getColumn() - serieNb;
+		     
+		      if (commentR.getSourcePosition() != -1) {
+		    	  System.out.println("Source trouvé à " + loc.getRow() + ":" + loc.getColumn());
+			      tSupp.writeCell(outputRowId, commentIndex, commentR.getSource());
+		      }
+		      if (commentR.getCommentPosition() != -1) {
+		    	  System.out.println("Comment trouvé à " + loc.getRow() + ":" + loc.getColumn());
+		    	  tSupp.writeCell(outputRowId, commentIndex + 1, commentR.getComment());
+		      }
+		      if (commentR.getStatutPosition() != -1) {
+		    	  System.out.println("Statut trouvé à " + loc.getRow() + ":" + loc.getColumn());
+		    	  tSupp.writeCell(outputRowId, commentIndex + 2, commentR.getStatut());
+		      }
+		      
+		    }
 	    }
 
 	    
