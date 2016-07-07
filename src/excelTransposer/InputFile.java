@@ -16,8 +16,13 @@ public class InputFile extends InOutFile{
 		 * @param linesToCopy
 		 * 		Number of lines in the file that should be copy/pasted 
 		 */
-		public InputFile(String name, XSSFSheet sheet, int linesToCopy) {
-			super(name, sheet);
+		public InputFile(XSSFSheet sheet, int linesToCopy) {
+			super(sheet);
+			allDone = false;
+		}
+		
+		public InputFile(XSSFSheet sheet) {
+			super(sheet);
 			allDone = false;
 		}
 
@@ -31,6 +36,26 @@ public class InputFile extends InOutFile{
 			return allDone;
 		}
 		
+		private int headerRow;
+		
+		public int getHeaderRow() {
+			return headerRow;
+		}
+
+		private int serieNb;
+		
+		public int getSerieNb() {
+			return serieNb;
+		}
+
+		public void setSerieNb(int serieNb) {
+			this.serieNb = serieNb;
+		}
+
+		public void setHeaderRow(int headerRow) {
+			this.headerRow = headerRow;
+		}
+
 		private Cell[] header;
 
 

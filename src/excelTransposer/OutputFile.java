@@ -10,8 +10,8 @@ public class OutputFile extends InOutFile {
 	 * Constructor
 	 * @param name Name of the file in which the transposition will be written. Everything is written into this file.
 	 */
-	public OutputFile(String name, XSSFSheet sheet) {
-		super(name, sheet);
+	public OutputFile(XSSFSheet sheet) {
+		super(sheet);
 	}
 	
 	private Cell[] years;

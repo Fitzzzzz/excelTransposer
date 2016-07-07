@@ -43,12 +43,12 @@ public class Main {
 		XSSFWorkbook iWorkbook = new XSSFWorkbook(fis);
 	    XSSFSheet iSheet = iWorkbook.getSheetAt(sheetNb);
 	    
-	    InputFile input = new InputFile(inputName, iSheet, linesToCopy);
+	    InputFile input = new InputFile(iSheet, linesToCopy);
 	    
 	    XSSFWorkbook oWorkbook = new XSSFWorkbook();
 	    XSSFSheet oSheet = oWorkbook.createSheet(iSheet.getSheetName());
 	    
-	    OutputFile output = new OutputFile(outputName, oSheet);
+	    OutputFile output = new OutputFile(oSheet);
 	    
 	    Tools T = new Tools(iSheet, oSheet);
 	    
@@ -156,11 +156,11 @@ public class Main {
 	    if ((iSuppSheet = iWorkbook.getSheet("suppression")) != null) {
 //	    	System.out.println("suppression trouvé");
 	    	
-	    	InputFile inputSupp = new InputFile("suppression", iSuppSheet, linesToCopy);
+	    	InputFile inputSupp = new InputFile(iSuppSheet, linesToCopy);
 		    
 	    	XSSFSheet oSuppSheet = oWorkbook.createSheet("suppression");
 		    
-		    OutputFile outputSupp = new OutputFile("suppression", oSuppSheet);
+		    OutputFile outputSupp = new OutputFile(oSuppSheet);
 		    
 		    Tools tSupp = new Tools(iSuppSheet, oSuppSheet);
 		    

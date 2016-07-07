@@ -262,9 +262,22 @@ public class Tools {
 		if (row == null) {
 			return true;
 		}
+		if (isRowEmpty(row)) {
+//			System.out.println("Row empty at " + j);
+			return true;
+		}
 		else {
 			return false;
 		}
+	}
+
+	public static boolean isRowEmpty(XSSFRow row) {
+	    for (int c = row.getFirstCellNum(); c < row.getLastCellNum(); c++) {
+	        Cell cell = row.getCell(c);
+	        if (cell != null && cell.getCellType() != Cell.CELL_TYPE_BLANK)
+	            return false;
+	    }
+	    return true;
 	}
 	
 	public boolean isColumnEmpty(int column, int firstRow) {

@@ -11,11 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 public class InOutFile {
 
-	/**
-	 * The name of the file.
-	 */
-	private String name;
-	
+
 	/**
 	 * The line in which it will be written or read next. Starts at 0.
 	 */
@@ -39,20 +35,14 @@ public class InOutFile {
 		this.currentLine = l;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getName() {
-		return name;
-	} 
+
 	
 	/**
 	 * Sets the name of the file and the current line to 0.
 	 * @param name Name of the file.
 	 * @see InOutFile#currentLine
 	 */
-	public InOutFile(String name, XSSFSheet sheet) {
-		this.name = name;
+	public InOutFile(XSSFSheet sheet) {
 		this.currentLine = 0;
 		this.sheet = sheet;
 	}
