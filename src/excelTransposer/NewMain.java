@@ -51,7 +51,24 @@ public class NewMain {
 	    
 	    duo.insertComments();
 	    
+	    XSSFSheet iSuppSheet;
 	    
+	    if ((iSuppSheet = iWorkbook.getSheet("suppression")) != null) {
+	    	
+	    	XSSFSheet oSuppSheet = oWorkbook.createSheet("suppression");
+	    	SheetCouple duoSupp = new SheetCouple(iSuppSheet, oSuppSheet, linesToCopy);
+	    	
+	    	duoSupp.getInputFile().setSerieNb(serieNb);
+		    
+		    duoSupp.copy(0, 0, linesToCopy);
+		    
+		    duoSupp.writeHeader(linesToCopy);
+		    
+		    duoSupp.writeBody();
+		    
+		    duoSupp.insertComments();
+		    
+	    }
 	    
 	    
 	    FileOutputStream out = new FileOutputStream(new File(outputName));

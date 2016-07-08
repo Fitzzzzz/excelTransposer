@@ -152,15 +152,15 @@ public class SheetCouple {
 		      int outputRowId = (loc.getRow() - inputFile.getLinesToCopy())*valuesNumber + inputFile.getLinesToCopy() + loc.getColumn() - inputFile.getSerieNb();
 		     
 		      if (commentR.getSourcePosition() != -1) {
-		    	  System.out.println("Source trouvé à " + loc.getRow() + ":" + loc.getColumn());
+//		    	  System.out.println("Source trouvé à " + loc.getRow() + ":" + loc.getColumn());
 			      t.writeCell(outputRowId, commentIndex, commentR.getSource());
 		      }
 		      if (commentR.getCommentPosition() != -1) {
-		    	  System.out.println("Comment trouvé à " + loc.getRow() + ":" + loc.getColumn());
+//		    	  System.out.println("Comment trouvé à " + loc.getRow() + ":" + loc.getColumn());
 			      t.writeCell(outputRowId, commentIndex + 1, commentR.getComment());
 		      }
 		      if (commentR.getStatutPosition() != -1) {
-		    	  System.out.println("Statut trouvé à " + loc.getRow() + ":" + loc.getColumn());
+//		    	  System.out.println("Statut trouvé à " + loc.getRow() + ":" + loc.getColumn());
 			      t.writeCell(outputRowId, commentIndex + 2, commentR.getStatut());
 		      }
 		      
