@@ -18,6 +18,7 @@ public class InputFile extends InOutFile{
 		 */
 		public InputFile(XSSFSheet sheet, int linesToCopy) {
 			super(sheet);
+			this.linesToCopy = linesToCopy;
 			allDone = false;
 		}
 		
@@ -31,6 +32,15 @@ public class InputFile extends InOutFile{
 		 */
 		private boolean allDone;
 		
+		private int linesToCopy;
+
+		public int getLinesToCopy() {
+			return linesToCopy;
+		}
+
+		public void setLinesToCopy(int linesToCopy) {
+			this.linesToCopy = linesToCopy;
+		}
 
 		public boolean isAllDone() {
 			return allDone;

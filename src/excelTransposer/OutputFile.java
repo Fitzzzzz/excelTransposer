@@ -46,6 +46,17 @@ public class OutputFile extends InOutFile {
 		this.leftHeader = leftHeader;
 	}
 
+	private int commentColumnId;
+	
+
+	public int getCommentColumnId() {
+		return commentColumnId;
+	}
+
+	public void setCommentColumnId(int commentColumnId) {
+		this.commentColumnId = commentColumnId;
+	}
+	
 	private Cell[] values;
 	
  	public Cell[] getValues() {
@@ -75,5 +86,6 @@ public class OutputFile extends InOutFile {
 		this.rightHeader = new Cell[rightSerieNb];
 		this.values = new Cell[valuesNb];
 	}
+
 }
 

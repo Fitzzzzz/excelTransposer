@@ -252,7 +252,7 @@ public class Tools {
 		
 		XSSFRow row = output.getRow(rowId);
 		Cell cell = row.createCell(columnId);
-//		System.out.println("dans writeCell de " + rowId + ":" + columnId + " : " + msg);
+		System.out.println("dans writeCell de " + rowId + ":" + columnId + " : " + msg);
 		cell.setCellValue(msg);
 		
 	}
