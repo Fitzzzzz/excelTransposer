@@ -246,6 +246,72 @@ public class Tools {
 		
 	}
 	 
+	public void writeline(int rowId, Cell[] first, int second, int third, Cell forth, Cell[] last) {
+
+		
+		XSSFRow row = output.createRow(rowId);
+		for (int i = 0; i < first.length; i++) {
+			Cell cell = row.createCell(i);
+			switch (first[i].getCellType()) {
+			case Cell.CELL_TYPE_NUMERIC:
+				if (DateUtil.isCellDateFormatted(first[i])) {
+					cell.setCellValue(first[i].getDateCellValue());
+//					System.out.println(" FOUND A DATE " + beginning[i].getRowIndex() + ":" + beginning[i].getColumnIndex()); // TODO : TBR
+				}
+				else {
+					cell.setCellValue(first[i].getNumericCellValue());
+				}
+				break;
+			case Cell.CELL_TYPE_STRING:
+				cell.setCellValue(first[i].getStringCellValue());
+				break;
+			}
+			
+		}
+
+		Cell cell = row.createCell(first.length);
+		cell.setCellValue(second);
+		
+		cell = row.createCell(first.length + 1);
+		cell.setCellValue(third);
+		
+		cell = row.createCell(first.length + 2);
+		switch (forth.getCellType()) {
+		case Cell.CELL_TYPE_NUMERIC:
+			if (DateUtil.isCellDateFormatted(forth)) {
+//				System.out.println(" FOUND A DATE " + third[i].getRowIndex() + ":" + third[i].getColumnIndex()); // TODO : TBR
+				cell.setCellValue(forth.getDateCellValue());
+			}
+			else {
+				cell.setCellValue(forth.getNumericCellValue());
+			}
+			break;
+		case Cell.CELL_TYPE_STRING:
+			cell.setCellValue(forth.getStringCellValue());
+			break;
+		}
+		
+		
+		for (int i = 0; i < last.length; i++) {
+			cell = row.createCell(first.length + 3 + i);
+			switch (last[i].getCellType()) {
+			case Cell.CELL_TYPE_NUMERIC:
+				if (DateUtil.isCellDateFormatted(last[i])) {
+//					System.out.println(" FOUND A DATE " + third[i].getRowIndex() + ":" + third[i].getColumnIndex()); // TODO : TBR
+					cell.setCellValue(last[i].getDateCellValue());
+				}
+				else {
+					cell.setCellValue(last[i].getNumericCellValue());
+				}
+				break;
+			case Cell.CELL_TYPE_STRING:
+				cell.setCellValue(last[i].getStringCellValue());
+				break;
+			}
+		}
+		
+	}
+	
 	// Needs row to be created (Should always been)
 	// Needs cell to be created? Is it?
 	public void writeCell(int rowId, int columnId, String msg) {

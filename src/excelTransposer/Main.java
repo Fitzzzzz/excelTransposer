@@ -71,8 +71,8 @@ public class Main {
 	    
 	    // Writing the header
 	    
-	    T.writeLine(linesToCopy, output.getLeftHeader(), OutputFile.periodValue, output.getRightHeader(), OutputFile.commentColumns);
-	    int commentIndex = output.getLeftHeader().length + OutputFile.periodValue.length + output.getRightHeader().length;
+	    T.writeLine(linesToCopy, output.getLeftHeader(), OutputFile.periodValueYearly, output.getRightHeader(), OutputFile.commentColumns);
+	    int commentIndex = output.getLeftHeader().length + OutputFile.periodValueYearly.length + output.getRightHeader().length;
 	    
 
 //	    CellArray rightHeader = new CellArray(output.getRightHeader()); 
@@ -183,7 +183,7 @@ public class Main {
 //		    
 		    // Writing the header
 		    
-		    tSupp.writeLine(linesToCopy, outputSupp.getLeftHeader(), OutputFile.periodValue, outputSupp.getRightHeader(), OutputFile.commentColumns);
+		    tSupp.writeLine(linesToCopy, outputSupp.getLeftHeader(), OutputFile.periodValueYearly, outputSupp.getRightHeader(), OutputFile.commentColumns);
 
 //		    CellArray rightHeaderSupp = new CellArray(outputSupp.getRightHeader()); 
 //		    rightHeaderSupp.print();

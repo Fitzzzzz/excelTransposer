@@ -25,6 +25,26 @@ public class OutputFile extends InOutFile {
 		this.years = years;
 	}
 
+	private int[] yearsInt;
+	
+	public int[] getYearsInt() {
+		return yearsInt;
+	}
+
+	public void setYearsInt(int[] yearsString) {
+		this.yearsInt = yearsString;
+	}
+
+	public int[] months;
+	
+	public int[] getMonths() {
+		return months;
+	}
+
+	public void setMonths(int[] months) {
+		this.months = months;
+	}
+
 	private Cell[] rightHeader;
  
 	public Cell[] getRightHeader() {
@@ -77,8 +97,9 @@ public class OutputFile extends InOutFile {
 	
 	
 		
-	public static final String[] periodValue = {"period", "value"};
+	public static final String[] periodValueYearly = {"period", "value"};
 	
+	public static final String[] periodValueMonthly = {"year", "month", "value"};
 	public static final String[] commentColumns = {"source", "comment", "statut"};
 	
 	public void setArrays(int leftSerieNb, int rightSerieNb, int valuesNb) {

@@ -37,7 +37,9 @@ public class InputFile extends InOutFile{
 		public int getLinesToCopy() {
 			return linesToCopy;
 		}
-
+		
+		
+		
 		public void setLinesToCopy(int linesToCopy) {
 			this.linesToCopy = linesToCopy;
 		}
