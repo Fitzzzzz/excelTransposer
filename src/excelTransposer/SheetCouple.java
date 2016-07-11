@@ -187,7 +187,14 @@ public class SheetCouple {
 	public void insertComments() {
 		
 		int valuesNumber = outputFile.getValues().length;
-		int commentIndex = outputFile.getLeftHeader().length + OutputFile.periodValueYearly.length + outputFile.getRightHeader().length;
+		int commentIndex;
+		if (isMonthly()) {
+			commentIndex = outputFile.getLeftHeader().length + OutputFile.periodValueMonthly.length + outputFile.getRightHeader().length;
+		}
+		else {
+			commentIndex = outputFile.getLeftHeader().length + OutputFile.periodValueYearly.length + outputFile.getRightHeader().length;
+		}
+
 
 		Map<CellAddress, XSSFComment> comments = inputSheet.getCellComments();
 		    
@@ -219,7 +226,13 @@ public class SheetCouple {
 	
 	public boolean isMonthly() {
 		
-		return outputFile.getYears()[0].getStringCellValue().matches(monthlyRegex);
+		switch (outputFile.getYears()[0].getCellType()) {
+		case Cell.CELL_TYPE_STRING: 
+			return outputFile.getYears()[0].getStringCellValue().matches(monthlyRegex);
+		default:
+			return false;
+		}
+		
 		
 	}
 	
