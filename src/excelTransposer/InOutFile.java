@@ -3,7 +3,7 @@ package excelTransposer;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 /**
- * A class describing a file. Can be a file in which it will be written (OutputFile) OR read (Inputfile) but not both.
+ * A class describing a sheet. Can be a sheet in which it will be written (OutputFile) OR read (Inputfile) but not both.
  * 
  * @author hamme
  *
@@ -17,6 +17,17 @@ public class InOutFile {
 	 */
 	private int currentLine; 
 	
+	public int getCurrentLine() {
+		return currentLine;
+	}
+	
+	public void setCurrentLine(int l) {
+		this.currentLine = l;
+	}
+	
+	/**
+	 * The sheet of the file.
+	 */
 	private XSSFSheet sheet;
 	
 	public XSSFSheet getSheet() {
@@ -26,20 +37,14 @@ public class InOutFile {
 	public void setSheet(XSSFSheet sheet) {
 		this.sheet = sheet;
 	}
-
-	public int getCurrentLine() {
-		return currentLine;
-	}
 	
-	public void setCurrentLine(int l) {
-		this.currentLine = l;
-	}
+	
 
 
 	
 	/**
 	 * Sets the name of the file and the current line to 0.
-	 * @param name Name of the file.
+	 * @param {@link InOutFile#sheet} 
 	 * @see InOutFile#currentLine
 	 */
 	public InOutFile(XSSFSheet sheet) {
@@ -48,7 +53,7 @@ public class InOutFile {
 	}
 	
 	/**
-	 * Increments the current line. Called after each readNext() or writeNext().
+	 * Increments the current line. 
 	 * @see InOutFile#currentLine
 	 */
 	public void incrLine() {
