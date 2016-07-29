@@ -1,4 +1,4 @@
-package excelTransposer;
+package xlsxTransposer;
 
 import java.util.Map;
 

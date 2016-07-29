@@ -2,7 +2,7 @@ package testTools;
 
 import org.apache.poi.ss.usermodel.Cell;
 
-import excelTransposer.Tools;
+import xlsxTransposer.Tools;
 
 public class CellArray {
 

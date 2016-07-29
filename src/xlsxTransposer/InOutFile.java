@@ -1,4 +1,4 @@
-package excelTransposer;
+package xlsxTransposer;
 
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
