@@ -33,6 +33,7 @@ public class SheetCouple {
 		this.outputCurrentLine = 0;
 		this.inputFile = new InputFile(iSheet);
 		this.outputFile = new OutputFile(oSheet);
+		this.deletedValuesNb = 0;
 	}
 	/**
 	 * Constructor, initializes an {@link #inputFile} and an {@link #outputFile}.
@@ -51,6 +52,7 @@ public class SheetCouple {
 		this.outputCurrentLine = 0;
 		this.inputFile = new InputFile(iSheet, linesToCopy);
 		this.outputFile = new OutputFile(oSheet);
+		this.deletedValuesNb = 0;
 	}
 	
 	/**
@@ -114,6 +116,17 @@ public class SheetCouple {
 		this.outputCurrentLine++;
 	}
 	
+	/**
+	 * Number of cells of values that are blank in the input
+	 */
+	private int deletedValuesNb;
+	
+	public int getDeletedValuesNb() {
+		return deletedValuesNb;
+	}
+	
+	private static final String[] keyWords = {"SOURCE:", "COMMENT:", "STATUT:"};
+
 	/**
 	 * Copies a number of succeeding lines (defined by length) from the input sheet starting at inputStart
 	 * into the output sheet starting at outputStart.
@@ -209,32 +222,43 @@ public class SheetCouple {
 		int serieNb = inputFile.getSerieNb();
 		int j = serieNb;
 		boolean done = false;
-		
+	    Comment[] comments = new Comment[inputFile.getLastPeriod() - serieNb + 1];
+
+		deletedValuesNb = 0;
 		// If the period is yearly
 		if (!isMonthly()) {
-			
 			// While EOF of the input has not been reached
 			while (!done) {
 
 			    outputFile.setLeftHeader(t.extractLine(j, 0, serieNb - 1));
-			    outputFile.setValues(t.extractLine(j, serieNb, inputFile.getLastPeriod()));
+			    outputFile.setValues(t.extractLine(j, serieNb, inputFile.getLastPeriod(), comments));
 			    outputFile.setRightHeader(t.extractLine(j, inputFile.getLastPeriod() + 1, inputFile.getColumnLimit()));
-			    
 			    Cell[] line = new Cell[serieNb + 2 + outputFile.getRightHeader().length];
 			    
 			    Tools.fill(line, outputFile.getLeftHeader(), 0);
 			    Tools.fill(line, outputFile.getRightHeader(), serieNb + 2);
 			    
 			    // For one line of the input :
+			    
 			    for (int i = 0; i < outputFile.getValues().length; i++) {
+			    	// If the value cell isn't blank
+			    	if (!(outputFile.getValues()[i].getCellType() == Cell.CELL_TYPE_BLANK)) {
+			    		
+			    		// Get the year
+				    	line[serieNb] = outputFile.getYears()[i];
+				    	// Get the value
+				    	line[serieNb + 1] = outputFile.getValues()[i];
+				    	// Write the line
+				    	t.writeLine(serieNb + i + (j - serieNb)*outputFile.getValues().length - deletedValuesNb, line);
 			    	
-			    	// Get the year
-			    	line[serieNb] = outputFile.getYears()[i];
-			    	// Get the value
-			    	line[serieNb + 1] = outputFile.getValues()[i];
-			    	// Write the line
-			    	t.writeLine(serieNb + i + (j - serieNb)*outputFile.getValues().length, line);
-
+				    	if (comments[i] != null) {
+				    		insertComment(comments[i], serieNb + i + (j - serieNb)*outputFile.getValues().length - deletedValuesNb, serieNb + i);
+				    	}
+			    	}
+			    	// If the cell is blank
+			    	else {
+			    		deletedValuesNb++;
+			    	}
 			    }
 			    j++;
 			    // Did we reach EOF?
@@ -252,10 +276,25 @@ public class SheetCouple {
 			    
 			    // For one line of the input :
 			    for (int i = 0; i < outputFile.getValues().length; i++) {
-			    	
-			    	// Write the line
-			    	t.writeline(serieNb + i + (j - serieNb)*outputFile.getValues().length, outputFile.getLeftHeader(), outputFile.getYearsInt()[i], outputFile.getMonths()[i], outputFile.getValues()[i] ,outputFile.getRightHeader());
-
+			    	// If the value cell isn't blank
+			    	if (!(outputFile.getValues()[i].getCellType() == Cell.CELL_TYPE_BLANK)) {
+			    		// Write the line
+				    	t.writeline(
+				    			serieNb + i + (j - serieNb)*outputFile.getValues().length - deletedValuesNb, 
+				    			outputFile.getLeftHeader(), 
+				    			outputFile.getYearsInt()[i], 
+				    			outputFile.getMonths()[i], 
+				    			outputFile.getValues()[i], 
+				    			outputFile.getRightHeader()
+				    			);
+				    	if (comments[i] != null) {
+				    		insertComment(comments[i], j - deletedValuesNb, serieNb + i);
+				    	}
+			    	}
+			    	// If the cell is blank
+			    	else {
+			    		deletedValuesNb++;
+			    	}
 			    }
 			    j++;
 			    // Did we reach the EOF?
@@ -263,6 +302,41 @@ public class SheetCouple {
 		    }
 		}
 	}
+	
+	public void insertComment(Comment comment, int rowId, int columnId) {
+		
+		int valuesNumber = outputFile.getValues().length;
+		int commentIndex;
+		// If the period is monthly 
+		if (isMonthly()) {
+			commentIndex = outputFile.getLeftHeader().length + OutputFile.periodValueMonthly.length + outputFile.getRightHeader().length;
+		}
+		// If the period is yearly
+		else {
+			commentIndex = outputFile.getLeftHeader().length + OutputFile.periodValueYearly.length + outputFile.getRightHeader().length;
+		}
+		
+		CommentReader commentR = new CommentReader(comment.getString().getString(), keyWords);
+		
+		int outputRowId = rowId;
+	     
+		// If the source keyword has been detected.
+		if (commentR.getPosition("SOURCE:") != -1) {
+			t.writeCell(outputRowId, commentIndex, commentR.getComment("SOURCE:"));
+		}
+		// If the comment keyword has been detected
+		if (commentR.getPosition("COMMENT:") != -1) {
+			t.writeCell(outputRowId, commentIndex + 1, commentR.getComment("COMMENT:"));
+		}
+		// If the statut keyword has been detected
+		if (commentR.getPosition("STATUT:") != -1) {	
+			t.writeCell(outputRowId, commentIndex + 2, commentR.getComment("STATUT:"));
+		}
+		
+	}
+	
+	
+	
 	/**
 	 * Will search for the commented cells. Once retrieved, the comments are analyzed and 
 	 * key-words are searched for. The comments with key-words are conserved and written 
@@ -289,11 +363,10 @@ public class SheetCouple {
 		      
 			CellAddress loc = e.getKey();
 			Comment comment = e.getValue(); 
-			String[] keyWords = {"SOURCE:", "COMMENT:", "STATUT:"};
 			CommentReader commentR = new CommentReader(comment.getString().getString(), keyWords);
 			
 			// Calculate the  in the output sheet of the cell whose comment is currently analyzed
-			int outputRowId = (loc.getRow() - inputFile.getLinesToCopy())*valuesNumber + inputFile.getLinesToCopy() + loc.getColumn() - inputFile.getSerieNb();
+			int outputRowId = (loc.getRow() - inputFile.getLinesToCopy())*valuesNumber + inputFile.getLinesToCopy() + loc.getColumn() - inputFile.getSerieNb() - deletedValuesNb;
      
 			// If the source keyword has been detected.
 			if (commentR.getPosition("SOURCE:") != -1) {
@@ -304,7 +377,7 @@ public class SheetCouple {
 				t.writeCell(outputRowId, commentIndex + 1, commentR.getComment("COMMENT:"));
 			}
 			// If the statut keyword has been detected
-			if (commentR.getPosition("STATUT:") != -1) {
+			if (commentR.getPosition("STATUT:") != -1) {				
 				t.writeCell(outputRowId, commentIndex + 2, commentR.getComment("STATUT:"));
 			}
 		}
@@ -339,7 +412,7 @@ public class SheetCouple {
 		String yearWithMonthString = yearWithMonthCell.getStringCellValue();
 		String[] yearAndMonth = yearWithMonthString.split("_");
 		if (yearAndMonth[1].matches("0[0-9]")) {
-			yearAndMonth[1] = yearAndMonth[1].substring(0, 1);
+			yearAndMonth[1] = yearAndMonth[1].substring(1, 2);
 		}
 		return yearAndMonth;
 	}

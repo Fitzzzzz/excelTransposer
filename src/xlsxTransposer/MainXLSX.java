@@ -52,8 +52,7 @@ public class MainXLSX {
 		    duo.writeHeader(linesToCopy);
 		    
 		    duo.writeBody();
-		    
-		    duo.insertComments();
+		    		    
 		    
 		    XSSFSheet iSuppSheet;
 		    
@@ -70,7 +69,6 @@ public class MainXLSX {
 			    
 			    duoSupp.writeBody();
 			    
-			    duoSupp.insertComments();
 			    
 		    }
 		    

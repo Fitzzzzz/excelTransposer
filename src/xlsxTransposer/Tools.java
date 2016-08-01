@@ -1,6 +1,7 @@
 package xlsxTransposer;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Comment;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -96,7 +97,8 @@ public class Tools {
 		}
 	}
 	/**
-	 * Extracts a line from the {@link Tools#input}.
+	 * Extracts a line from the {@link Tools#input}. 
+	 * Extracts Null as Blank.
 	 * @param rowId
 	 * 		The number of the row.
 	 * @return
@@ -113,7 +115,8 @@ public class Tools {
 	}
 	
 	/**
-	 * Extracts certain following cells from a row from the {@link Tools#input}.
+	 * Extracts certain following cells from a row from the {@link Tools#input}. 
+	 * Extracts Null as Blank.
 	 * @param rowId
 	 * 		The number of the row to extract cells from
 	 * @param start
@@ -133,6 +136,24 @@ public class Tools {
 		}
 		return line;
 	}
+	
+	public Cell[] extractLine(int rowId, int start, int end, Comment[] comm) { 
+		
+		XSSFRow row = input.getRow(rowId);
+		Cell[] line = new Cell[end - start + 1];
+
+		for (int i = start; i <= end; i++) {			
+			line[i - start] = row.getCell(i, Row.CREATE_NULL_AS_BLANK);
+			Comment comment = row.getCell(i, Row.CREATE_NULL_AS_BLANK).getCellComment();
+			if (comment != null) {
+				comm[i - start] = comment;
+			 }
+		}
+		return line;
+	}
+	
+	
+	
 	
 	/**
 	 * Write a line in the {@link Tools#output} composed of arrays of Cell and String
