@@ -222,7 +222,6 @@ public class SheetCouple {
 		int serieNb = inputFile.getSerieNb();
 		int j = serieNb;
 		boolean done = false;
-	    Comment[] comments = new Comment[inputFile.getLastPeriod() - serieNb + 1];
 
 		deletedValuesNb = 0;
 		// If the period is yearly
@@ -230,6 +229,7 @@ public class SheetCouple {
 			// While EOF of the input has not been reached
 			while (!done) {
 
+			    Comment[] comments = new Comment[inputFile.getLastPeriod() - serieNb + 1];
 			    outputFile.setLeftHeader(t.extractLine(j, 0, serieNb - 1));
 			    outputFile.setValues(t.extractLine(j, serieNb, inputFile.getLastPeriod(), comments));
 			    outputFile.setRightHeader(t.extractLine(j, inputFile.getLastPeriod() + 1, inputFile.getColumnLimit()));
@@ -270,6 +270,7 @@ public class SheetCouple {
 			// While EOF of the input has not been reached
 			while (!done) {
 
+			    Comment[] comments = new Comment[inputFile.getLastPeriod() - serieNb + 1];
 			    outputFile.setLeftHeader(t.extractLine(j, 0, serieNb - 1));
 			    outputFile.setValues(t.extractLine(j, serieNb, inputFile.getLastPeriod()));
 			    outputFile.setRightHeader(t.extractLine(j, inputFile.getLastPeriod() + 1, inputFile.getColumnLimit()));  
@@ -305,7 +306,6 @@ public class SheetCouple {
 	
 	public void insertComment(Comment comment, int rowId, int columnId) {
 		
-		int valuesNumber = outputFile.getValues().length;
 		int commentIndex;
 		// If the period is monthly 
 		if (isMonthly()) {
