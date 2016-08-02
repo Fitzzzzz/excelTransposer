@@ -117,7 +117,8 @@ public class SheetCouple {
 	}
 	
 	/**
-	 * Number of cells of values that are blank in the input
+	 * Number of lines (for the output) or cells (for the input) 
+	 * that were skipped because they were empty. Is incremented dynamically in {@link #writeBody()}.
 	 */
 	private int deletedValuesNb;
 	
@@ -251,6 +252,7 @@ public class SheetCouple {
 				    	// Write the line
 				    	t.writeLine(serieNb + i + (j - serieNb)*outputFile.getValues().length - deletedValuesNb, line);
 			    	
+				    	// If the comment isn't empty, we analyze it for keywords
 				    	if (comments[i] != null) {
 				    		insertComment(comments[i], serieNb + i + (j - serieNb)*outputFile.getValues().length - deletedValuesNb, serieNb + i);
 				    	}
@@ -288,8 +290,10 @@ public class SheetCouple {
 				    			outputFile.getValues()[i], 
 				    			outputFile.getRightHeader()
 				    			);
+				    	
+				    	// If the comment isn't empty, we analyze it for keywords
 				    	if (comments[i] != null) {
-				    		insertComment(comments[i], j - deletedValuesNb, serieNb + i);
+				    		insertComment(comments[i], serieNb + i + (j - serieNb)*outputFile.getValues().length - deletedValuesNb, serieNb + i);
 				    	}
 			    	}
 			    	// If the cell is blank
@@ -303,7 +307,14 @@ public class SheetCouple {
 		    }
 		}
 	}
-	
+	/**
+	 * Goes thru a comment looking for the keywords and writes the portion following 
+	 * a keyword in the output file at the given row.
+	 * @param comment
+	 * 		The comment to look thru
+	 * @param rowId
+	 * 		The row to write the comment in if needed
+	 */
 	public void insertComment(Comment comment, int rowId, int columnId) {
 		
 		int commentIndex;

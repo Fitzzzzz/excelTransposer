@@ -137,6 +137,21 @@ public class Tools {
 		return line;
 	}
 	
+	/**
+	 * Extracts certain following cells from a row from the {@link Tools#input}. 
+	 * Extracts Null as Blank.
+	 * Fills the comment array in parameter with the found commentaries.
+	 * @param rowId
+	 * 		The number of the row to extract cells from
+	 * @param start
+	 * 		The cell to start with
+	 * @param end
+	 * 		The last cell to extract
+	 * @param
+	 * 		The Comment array to fill with the commentaries
+	 * @return
+	 * 		The extracted cells in the form of an array of cells
+	 */
 	public Cell[] extractLine(int rowId, int start, int end, Comment[] comm) { 
 		
 		XSSFRow row = input.getRow(rowId);
