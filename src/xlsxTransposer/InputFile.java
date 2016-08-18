@@ -125,12 +125,18 @@ public class InputFile extends InOutFile{
 		 * 		The Id (starting at 0) of the row in which it will be searched.
 		 * @param serieNb
 		 * 		The column of the cell to start the search with.
+		 * @throws NoValuesException 
+		 * 		If the input contains no value.
 		 */
-		public void findFirstBlankColumn(int rowId, int serieNb) {
+		public void findFirstBlankColumn(int rowId, int serieNb) throws NoValuesException {
 
 			XSSFRow row = getSheet().getRow(rowId);
 			int eof = row.getLastCellNum();			
 			XSSFRow rowUnder = getSheet().getRow(rowId + 1);
+			
+			if (rowUnder == null) {
+				throw new NoValuesException();
+			}
 			
 			
 			boolean stringFound = false;

@@ -1,5 +1,8 @@
 package xlsxTransposer;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Comment;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -112,6 +115,17 @@ public class Tools {
 			line[i] = row.getCell(i, Row.CREATE_NULL_AS_BLANK);
 		}
 		return line;
+	}
+	
+	public Cell[] extractLineException(int rowId) {
+
+		XSSFRow row = input.getRow(rowId);
+		Cell[] line = new Cell[row.getLastCellNum() + 1];			
+		for (int i = 0; i < row.getLastCellNum(); i++) {			
+			line[i] = row.getCell(i, Row.CREATE_NULL_AS_BLANK);
+		}
+		return line;
+		
 	}
 	
 	/**
@@ -440,6 +454,103 @@ public class Tools {
 		}
 	}
 	
+	
+	public void writeLine(int rowId, Cell[] headerException, int headerMax, String[] periodvalueyearly,
+			String[] commentcolumns) {
+		
+		XSSFRow row = output.createRow(rowId);
+		for (int i = 0; i < headerMax; i++) {
+			Cell cell = row.createCell(i);
+			switch (headerException[i].getCellType()) {
+			case Cell.CELL_TYPE_NUMERIC:
+				if (DateUtil.isCellDateFormatted(headerException[i])) {
+					cell.setCellValue(headerException[i].getDateCellValue());
+				}
+				else {
+					cell.setCellValue(headerException[i].getNumericCellValue());
+				}
+				break;
+			case Cell.CELL_TYPE_STRING:
+				cell.setCellValue(headerException[i].getStringCellValue());
+				break;
+			}
+		}
+		
+		for (int i = 0; i < periodvalueyearly.length; i++) {
+			Cell cell = row.createCell(headerMax + i);
+			cell.setCellValue(periodvalueyearly[i]);
+		}
+		
+		for (int i = 0; i < commentcolumns.length; i++) {
+			Cell cell = row.createCell(headerMax + periodvalueyearly.length+ i);
+			cell.setCellValue(commentcolumns[i]);
+		}
+		
+	}
+	
+	public void writeLine(int rowId, LinkedList<Cell> list, String[] periodvalueyearly,
+			String[] commentcolumns, LinkedList<Cell> list2) {
+		
+		XSSFRow row = output.createRow(rowId);
+		Iterator<Cell> itr = list.iterator();
+		int length = 0;
+		while (itr.hasNext()) {
+			
+			Cell c = itr.next();
+			Cell cell = row.createCell(length);
+			switch (c.getCellType()) {
+			case Cell.CELL_TYPE_NUMERIC:
+				if (DateUtil.isCellDateFormatted(c)) {
+					cell.setCellValue(c.getDateCellValue());
+				}
+				else {
+					cell.setCellValue(c.getNumericCellValue());
+				}
+				break;
+			case Cell.CELL_TYPE_STRING:
+				cell.setCellValue(c.getStringCellValue());
+				break;
+			}
+			length++;
+		}
+		
+		for (int i = 0; i < periodvalueyearly.length; i++) {
+			Cell cell = row.createCell(length + i);
+			cell.setCellValue(periodvalueyearly[i]);
+		}
+		
+		int index = 0;
+		itr = list2.iterator();
+		while (itr.hasNext()) {
+			
+			Cell c = itr.next();
+			Cell cell = row.createCell(length + periodvalueyearly.length + index);
+			switch (c.getCellType()) {
+			case Cell.CELL_TYPE_NUMERIC:
+				if (DateUtil.isCellDateFormatted(c)) {
+					cell.setCellValue(c.getDateCellValue());
+				}
+				else {
+					cell.setCellValue(c.getNumericCellValue());
+				}
+				break;
+			case Cell.CELL_TYPE_STRING:
+				cell.setCellValue(c.getStringCellValue());
+				break;
+			}
+			index++;
+		}
+		
+		for (int i = 0; i < commentcolumns.length; i++) {
+			Cell cell = row.createCell(length + periodvalueyearly.length + index + i);
+			cell.setCellValue(commentcolumns[i]);
+		}
+		
+
+		
+	}
+	
+	
 	/**
 	 * Writes a message in a cell in the output sheet.
 	 * @param rowId
@@ -630,6 +741,8 @@ public class Tools {
 			}
 		}
 	}
+	
+	
 	
 	
 	

@@ -1,11 +1,15 @@
 package xlsxTransposer;
 
+import java.util.LinkedList;
 import java.util.Map;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Comment;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.CellAddress;
 import org.apache.poi.xssf.usermodel.XSSFComment;
+import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import commentsHandler.CommentReader;
@@ -149,8 +153,10 @@ public class SheetCouple {
 	 * @see InputFile#findFirstBlankColumn(int, int)
 	 * @param rowId
 	 * @param columnStart
+	 * @throws NoValuesException 
+	 * 		If the input contains no value.
 	 */
-	public void findFirstBlankColumn(int rowId, int columnStart) {
+	public void findFirstBlankColumn(int rowId, int columnStart) throws NoValuesException {
 		inputFile.findFirstBlankColumn(rowId, columnStart);
 		t.setLastColumn(inputFile.getColumnLimit());
 	}
@@ -177,10 +183,58 @@ public class SheetCouple {
 	 * Testing also if the period is yearly or monthly.
 	 * @param headerRowId
 	 * 		The index of the row containing the header in the input.
+	 * @throws NoValuesException 
+	 * 		If the input contains no value.
 	 */
-	public void writeHeader(int headerRowId) {
+	public void writeHeader(int headerRowId) throws NoValuesException {
 		
-		findFirstBlankColumn(headerRowId, inputFile.getSerieNb());
+		try {
+			findFirstBlankColumn(headerRowId, inputFile.getSerieNb());
+		} catch (NoValuesException e) {
+			
+			
+			
+			
+			
+			
+			Cell[] headerException = t.extractLineException(headerRowId);
+			
+			Boolean found = false;
+			int i = 0;
+//			while (i < headerException.length && !found) {
+//
+//				switch (headerException[i].getCellType()) {
+//				case Cell.CELL_TYPE_NUMERIC:
+//						found = true;
+//						break;
+//				}
+//				
+//				i++;
+//			}
+			
+			LinkedList<Cell> list1 = new LinkedList<Cell>();
+			LinkedList<Cell> list2 = new LinkedList<Cell>();
+			
+			
+			for (Cell c : headerException) {
+				if (c != null) {
+					switch (c.getCellType()) {
+					case Cell.CELL_TYPE_NUMERIC:
+						
+						break;
+					default:
+						if (i < this.getInputFile().getSerieNb())
+							list1.add(c);
+						else
+							list2.add(c);
+					}
+				}
+				i++;
+			}
+			
+			t.writeLine(outputCurrentLine, list1, OutputFile.periodValueYearly, OutputFile.commentColumns, list2);
+			throw new NoValuesException();
+		}
 		extractHeader(headerRowId);
 		divideHeader();
 		

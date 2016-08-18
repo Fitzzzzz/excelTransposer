@@ -35,6 +35,9 @@ public class MainXLSX {
 		String[] parts = inputName.split("\\.");
 		String outputName = parts[0] + "Transposed.xlsx";
 		
+		XSSFWorkbook secondOWorkbook = null;
+		XSSFWorkbook secondIWorkbook = null;
+		
 		try {
 			FileInputStream fis = new FileInputStream(new File(inputName));
 			XSSFWorkbook iWorkbook = new XSSFWorkbook(fis);
@@ -42,7 +45,8 @@ public class MainXLSX {
 		    XSSFWorkbook oWorkbook = new XSSFWorkbook();
 		    XSSFSheet oSheet = oWorkbook.createSheet(iSheet.getSheetName());
 		    
-		    
+		    secondOWorkbook = oWorkbook;
+	    	secondIWorkbook = iWorkbook;
 		    SheetCouple duo = new SheetCouple(iSheet, oSheet, linesToCopy);
 		    
 		    duo.getInputFile().setSerieNb(serieNb);
@@ -58,6 +62,8 @@ public class MainXLSX {
 		    
 		    if ((iSuppSheet = iWorkbook.getSheet("suppression")) != null) {
 		    	
+		    	secondOWorkbook = oWorkbook;
+		    	secondIWorkbook = iWorkbook;
 		    	XSSFSheet oSuppSheet = oWorkbook.createSheet("suppression");
 		    	SheetCouple duoSupp = new SheetCouple(iSuppSheet, oSuppSheet, linesToCopy);
 		    	
@@ -87,6 +93,25 @@ public class MainXLSX {
 			System.out.println("Cancelling transposition of this file.");
 			System.out.println("Stack Trace following : ");
 			e.printStackTrace();
+		} catch (NoValuesException e) {
+			
+			FileOutputStream out;
+			try {
+				out = new FileOutputStream(new File(outputName));
+				secondOWorkbook.write(out);
+				out.close();
+				secondIWorkbook.close();
+				secondOWorkbook.close();
+				
+				
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		
 		} 
 		
 
